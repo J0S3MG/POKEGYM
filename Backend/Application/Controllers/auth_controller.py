@@ -61,8 +61,8 @@ def register_new_user( user_data: UserCreate, auth_service: AuthServiceInterface
 # --------------------------------------------------------------------------------------------------------------
 
 
-
-@router.get("/auth/me", response_model=UserResponse, summary="Obtener usuario actual")
+# ------------------------------------ OBTENER USUARIO ---------------------------------------------------------
+@router.get("/auth/me", response_model=UserResponse, summary="Obtener usuario actual", operation_id="Obtener_Usuario")
 def get_current_user_endpoint(current_user: User = Depends(get_current_user)):
     """
     Endpoint para obtener los datos del usuario autenticado.
@@ -73,3 +73,4 @@ def get_current_user_endpoint(current_user: User = Depends(get_current_user)):
         full_name=current_user.full_name,
         is_active=current_user.is_active
     )
+# --------------------------------------------------------------------------------------------------------------

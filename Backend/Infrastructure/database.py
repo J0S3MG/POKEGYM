@@ -29,15 +29,6 @@ engine = create_engine(DATABASE_URL, echo=True,
 )
 # --------------------------------------------------------------------------------------------
 
-# DATABASE_URL = "postgresql://postgres:1234@localhost:5432/BaseRutina" # Le paso la url de la BD.
-
-# Agregamos parámetros importantes para PostgreSQL.
-#engine = create_engine(
-#    DATABASE_URL, 
-#    echo=True,
-#    pool_pre_ping=True,  # Verifica las conexiones antes de usarlas.
-#    pool_recycle=3600    # Recicla conexiones cada hora.
-#)
 
 # ------------------------------- Creamos la BD y sus tablas ------------------------------------
 def create_db_and_tables():

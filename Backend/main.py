@@ -47,16 +47,4 @@ app.include_router(auth_router)
 # -----------------------------------------------------------------------------------------------------------------------------------
 
 
-# ----------------------- Endpoints de prueba para verificar la conexion con el front -----------------------------
-@app.get("/")
-async def root():
-    return {"message": "POKEGYM API funcionando", "status": "healthy"}
 
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy", "timestamp": datetime.now().isoformat()}
-
-@app.get("/api/health")
-async def api_health_check():
-    return {"status": "healthy", "service": "POKEGYM API"}
-# -----------------------------------------------------------------------------------------------------------------

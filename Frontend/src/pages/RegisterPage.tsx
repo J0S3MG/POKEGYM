@@ -1,75 +1,88 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Paper, TextField, Button, Typography, Box, Alert, CircularProgress} from '@mui/material';
+import { authApi } from '../api/Api';
 
 const RegisterPage: React.FC = () => {
 
-  const [formData, setFormData] = useState({
-    username: '',      
-    password: '',
-    confirmPassword: '',
-    full_name: '',    
-  });
+    const [formData, setFormData] = useState({
+        username: '',       
+        password: '',
+        confirmPassword: '',
+        full_name: '',      
+    });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   
   const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+    
+ const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setSuccess('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
+        // Validaciones locales
+        if (formData.password !== formData.confirmPassword) {
+            setError('Las contraseñas no coinciden');
+            return;
+        }
 
-    // Validaciones
-    if (formData.password !== formData.confirmPassword) {
-      setError('Las contraseñas no coinciden');
-      return;
-    }
+        if (formData.password.length < 8) {
+            setError('La contraseña debe tener al menos 8 caracteres');
+            return;
+        }
 
-    if (formData.password.length < 8) {
-      setError('La contraseña debe tener al menos 8 caracteres');
-      return;
-    }
+        setLoading(true);
 
-    setLoading(true);
+        // Preparamos los datos que espera FastAPI
+        const userToRegister = {
+            username: formData.username,
+            password: formData.password,
+            full_name: formData.full_name,
+        };
+        
+        try {
+            // ⭐️ LLAMADA REAL AL ENDPOINT /api/auth/register
+            await authApi.register(userToRegister); 
+            
+            // Si la llamada es exitosa, ejecuta la redirección
+            setSuccess('¡Registro exitoso! Redirigiendo al login...');
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
 
-    try {
-      setSuccess('¡Registro exitoso! Redirigiendo al login...');
-      setTimeout(() => {
-        navigate('/login');
-      }, 2000);
-    } catch (err: any) {
-      // Manejar errores específicos de FastAPI
-      const errorDetail = err.response?.data?.detail;
-      
-      if (typeof errorDetail === 'string') {
-        setError(errorDetail);
-      } else if (Array.isArray(errorDetail)) {
-        // Si es una lista de errores (common en Pydantic)
-        const errorMessages = errorDetail.map((e: any) => {
-          if (e.msg && e.loc) {
-            return `${e.loc.join('.')}: ${e.msg}`;
-          }
-          return JSON.stringify(e);
-        }).join(', ');
-        setError(errorMessages);
-      } else {
-        setError(err.response?.data?.detail || 'Error al registrar usuario');
-      }
-      
-      console.error('Error en registro:', err.response?.data || err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+        } catch (err: any) {
+            // Manejo de errores específicos de FastAPI (¡que ya tenías implementado!)
+            const errorDetail = err.response?.data?.detail;
+            
+            if (typeof errorDetail === 'string') {
+                setError(errorDetail);
+            } else if (Array.isArray(errorDetail)) {
+                // Si es una lista de errores (común en Pydantic)
+                const errorMessages = errorDetail.map((e: any) => {
+                    if (e.msg && e.loc) {
+                        return `${e.loc.join('.')}: ${e.msg}`;
+                    }
+                    return JSON.stringify(e);
+                }).join(', ');
+                setError(errorMessages);
+            } else {
+                setError(err.response?.data?.detail || 'Error al registrar usuario');
+            }
+            
+            console.error('Error en registro:', err.response?.data || err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
   return (
     <Container maxWidth="sm">
