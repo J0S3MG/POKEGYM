@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+
+  postgres-db:
+   
+    image: postgres:16-alpine # Versión específica + variante ligera.
+    
+    container_name: db-rutina # Nombre de contenedor explícito (opcional).
+    restart: unless-stopped
+    
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: BaseRutina
+    
+    ports:
+      - "5432:5432"
+    
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
+    name: db-rutina-data
