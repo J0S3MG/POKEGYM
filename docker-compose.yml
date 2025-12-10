@@ -12,9 +12,9 @@ services:
       - "5432:5432"
     environment:
       # Variables de entorno para la configuración de Seguridad
-      SECRET_KEY="GENERAR_UNA_CLAVE_SECRETA_LARGA_AQUI_PARA_PRODUCCION" # Genera una clave segura de al menos 32 caracteres
-      ALGORITHM="HS256"
-      ACCESS_TOKEN_EXPIRE_MINUTES=60 # Tiempo de vida del token en minutos
+      SECRET_KEY: "GENERAR_UNA_CLAVE_SECRETA_LARGA_AQUI_PARA_PRODUCCION" # Genera una clave segura de al menos 32 caracteres
+      ALGORITHM: "HS256"
+      ACCESS_TOKEN_EXPIRE_MINUTES: 60 # Tiempo de vida del token en minutos
       # Variables de entorno para la configuración inicial de PostgreSQL
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
