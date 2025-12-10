@@ -11,10 +11,6 @@ services:
       # Expone el puerto por defecto de PostgreSQL al host (opcional, pero útil)
       - "5432:5432"
     environment:
-      # Variables de entorno para la configuración de Seguridad
-      SECRET_KEY: "GENERAR_UNA_CLAVE_SECRETA_LARGA_AQUI_PARA_PRODUCCION" # Genera una clave segura de al menos 32 caracteres
-      ALGORITHM: "HS256"
-      ACCESS_TOKEN_EXPIRE_MINUTES: 60 # Tiempo de vida del token en minutos
       # Variables de entorno para la configuración inicial de PostgreSQL
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
@@ -22,6 +18,11 @@ services:
     volumes:
       # Persiste los datos de la base de datos en el volumen 'postgres_data'
       - postgres_data:/var/lib/postgresql/data
+    healthcheck: # <-- Nivel de indentación correcto
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   # --- 2. Servicio de Backend (Python) ---
   backend:
@@ -31,29 +32,33 @@ services:
       dockerfile: Dockerfile
     container_name: backend_app
     restart: unless-stopped
-    # Depende de que el servicio 'db' esté listo
-    depends_on:
-      - db
+    depends_on: # <-- Dependencia correcta
+      db:
+        condition: service_healthy # Espera el healthcheck exitoso
     ports:
       # Mapea el puerto 8000 del contenedor al puerto 8000 del host
       - "8000:8000"
-    environment:
+    environment: 
+      # Variables de entorno para la configuración de Seguridad
+      SECRET_KEY: "GENERAR_UNA_CLAVE_SECRETA_LARGA_AQUI_PARA_PRODUCCION" # Genera una clave segura de al menos 32 caracteres
+      ALGORITHM: "HS256"
+      ACCESS_TOKEN_EXPIRE_MINUTES: 60 # Tiempo de vida del token en minutos
       # Configura la conexión a la base de datos (usa el nombre del servicio 'db')
-      # Estas son variables de entorno.
-      POSTGRES_SERVER: db         
+      POSTGRES_SERVER: db 
       POSTGRES_DB: BaseRutina
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
     volumes:
       # Monta el código fuente en el contenedor para desarrollo (cambios en tiempo real)
       - ./Backend:/usr/src/app/Backend
-      - ./Frontend:/usr/src/app/Frontend
-    # Sobrescribe el comando por defecto para instalar dependencias e iniciar el backend
-    # ASUME que tienes un archivo requirements.txt en la carpeta Backend
+      # Ya no es necesario montar ./Frontend aquí
+    # Sobrescribe el comando por defecto para esperar la DB e iniciar Uvicorn
     command: >
-      sh -c "pip install --break-system-packages -r Backend/requirements.txt && 
-         cd Backend && 
-         uvicorn main:app --host 0.0.0.0 --port 8000"
+      sh -c "echo 'Esperando a PostgreSQL...' && 
+      while ! pg_isready -h db -p 5432 -U postgres; do sleep 1; done;
+      echo 'PostgreSQL listo. Inicializando Base de Datos e iniciando Uvicorn.' &&
+      cd Backend && 
+      uvicorn main:app --host 0.0.0.0 --port 8000"
 
   # --- 3. Servicio de Frontend (Node.js/React/Vite) ---
   frontend:
@@ -66,11 +71,11 @@ services:
       # Mapea el puerto de desarrollo de Vite/React al host
       - "5173:5173"
     volumes:
+      # Monta el código fuente del Frontend
       - ./Frontend:/usr/src/app/Frontend
       # Añadir un volumen para 'node_modules' para evitar errores de permisos
       - /usr/src/app/Frontend/node_modules
     # Sobrescribe el comando para instalar dependencias e iniciar el frontend
-    # ASUME que tienes un archivo package.json con un script 'dev' en la carpeta Frontend
     command: >
       sh -c "npm install --prefix Frontend && 
              cd Frontend && 
