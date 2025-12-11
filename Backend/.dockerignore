@@ -1,0 +1,11 @@
+# Backend/.dockerignore - VERSIÓN SEGURA
+__pycache__/
+*.pyc
+.env
+.git/
+venv/
+*.log
+tests/
+*.sqlite3
+*.db
+instance/

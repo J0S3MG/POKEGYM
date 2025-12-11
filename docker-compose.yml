@@ -1,87 +1,92 @@
-version: '3.8'
+version: '3.8' # Versión de Docker Compose - Define las características disponibles.
 
 services:
-  # --- 1. Servicio de Base de Datos (PostgreSQL) ---
-  db:
-    # Usamos la imagen oficial ligera 
-    image: postgres:16-alpine
-    container_name: postgres_db
-    restart: unless-stopped
-    ports:
-      # Expone el puerto por defecto de PostgreSQL al host (opcional, pero útil)
+  # -----------------------------------------------------------------------------
+  # --------------- SERVICIO DE BASE DE DATOS (PostgreSQL) ----------------------
+  # -----------------------------------------------------------------------------
+  db: 
+    image: postgres:16-alpine   # Imagen oficial ligera de PostgreSQL versión 16.
+    container_name: postgres_db # Nombre personalizado para el contenedor.
+    restart: unless-stopped     # Política de reinicio.
+    ports:  # Puerto: expone PostgreSQL (5432 interno) al host con el mismo puerto.
       - "5432:5432"
-    environment:
-      # Variables de entorno para la configuración inicial de PostgreSQL
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: BaseRutina
-    volumes:
-      # Persiste los datos de la base de datos en el volumen 'postgres_data'
+    environment: # Variables de entorno para configuración inicial de PostgreSQL.
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}      # Valor por defecto si no se define en .env
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-1234}  # Valor por defecto si no se define en .env
+      POSTGRES_DB: ${POSTGRES_DB:-BaseRutina}        # Valor por defecto si no se define en .env
+    volumes: # Volúmenes para persistencia de datos.
       - postgres_data:/var/lib/postgresql/data
-    healthcheck: # <-- Nivel de indentación correcto
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+    healthcheck: # Verifica periódicamente que PostgreSQL esté listo para conexiones.
+      # Comando que verifica si PostgreSQL está aceptando conexiones.
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 5s # Intervalo entre checks: 5 segundos.
+      timeout: 5s  # Tiempo máximo de espera para cada check: 5 segundos.
+      retries: 5   # Número de reintentos antes de marcar como no saludable.
+    networks: # Red privada en la que se comunican los contenedores.
+      - en-privado
 
-  # --- 2. Servicio de Backend (Python) ---
+
+  # -----------------------------------------------------------------------------
+  # ------------ SERVICIO DE BACKEND (Python + FastAPI/UVicorn) -----------------
+  # -----------------------------------------------------------------------------
   backend:
-    # Construye la imagen a partir del Dockerfile que creamos
-    build:
-      context: . # Usa el Dockerfile en el directorio actual
-      dockerfile: Dockerfile
-    container_name: backend_app
+    build: # Sección para construir una imagen personalizada (Ver en la carpeta backend).
+      context: ./Backend     # Define el directorio base para la construcción.
+      dockerfile: Dockerfile # Especifica qué archivo usar como "receta" de construcción.
+    container_name: backend_app 
     restart: unless-stopped
-    depends_on: # <-- Dependencia correcta
+    depends_on:  # Dependencias: asegura que la DB esté saludable antes de iniciar.
       db:
-        condition: service_healthy # Espera el healthcheck exitoso
+        condition: service_healthy  # Solo inicia cuando db pase el healthcheck.
     ports:
-      # Mapea el puerto 8000 del contenedor al puerto 8000 del host
-      - "8000:8000"
-    environment: 
-      # Variables de entorno para la configuración de Seguridad
-      SECRET_KEY: "GENERAR_UNA_CLAVE_SECRETA_LARGA_AQUI_PARA_PRODUCCION" # Genera una clave segura de al menos 32 caracteres
-      ALGORITHM: "HS256"
-      ACCESS_TOKEN_EXPIRE_MINUTES: 60 # Tiempo de vida del token en minutos
-      # Configura la conexión a la base de datos (usa el nombre del servicio 'db')
-      POSTGRES_SERVER: db 
-      POSTGRES_DB: BaseRutina
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1234
-    volumes:
-      # Monta el código fuente en el contenedor para desarrollo (cambios en tiempo real)
-      - ./Backend:/usr/src/app/Backend
-      # Ya no es necesario montar ./Frontend aquí
-    # Sobrescribe el comando por defecto para esperar la DB e iniciar Uvicorn
-    command: >
-      sh -c "echo 'Esperando a PostgreSQL...' && 
-      while ! pg_isready -h db -p 5432 -U postgres; do sleep 1; done;
-      echo 'PostgreSQL listo. Inicializando Base de Datos e iniciando Uvicorn.' &&
-      cd Backend && 
-      uvicorn main:app --host 0.0.0.0 --port 8000"
+      # Expone el servidor backend (puerto 8000) al host.
+      - "8000:8000"  
+    environment: # Variables de entorno para configuración de la aplicación
+      # --- CONFIGURACIÓN DE BASE DE DATOS ---
+      # URL de conexión completa a PostgreSQL usando las credenciales configuradas.
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-1234}@db:5432/${POSTGRES_DB:-BaseRutina}
+      # --- CONFIGURACIÓN JWT (JSON Web Tokens) ---
+      # Clave secreta para firmar tokens JWT.
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-GENERAR_UNA_CLAVE_SECRETA_LARGA_AQUI_PARA_PRODUCCION}
+      JWT_ALGORITHM: ${JWT_ALGORITHM:-HS256} # Algoritmo de encriptación para JWT.
+      # Tiempo de expiración del token de acceso (30 minutos por defecto).
+      JWT_ACCESS_TOKEN_EXPIRE_MINUTES: ${JWT_ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+    volumes: # Volúmenes para desarrollo: sincronizan código local con contenedor.
+      - ./Backend:/app # Monta el código fuente local para desarrollo en caliente (hot-reload).
+      - backend_cache:/app/.cache # Volumen para cache de Python/pip para evitar reinstalar dependencias cada vez.
+    # Comando para ejecutar la aplicación.
+    command: python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - en-privado
 
-  # --- 3. Servicio de Frontend (Node.js/React/Vite) ---
-  frontend:
-    build:
-      context: .
+
+  # -----------------------------------------------------------------------------
+  # ---------------- SERVICIO DE FRONTEND (React + Vite) ------------------------
+  # -----------------------------------------------------------------------------
+  frontend:  
+    build: # Sección para construir una imagen personalizada (Ver en la carpeta frontend).
+      context: ./Frontend
       dockerfile: Dockerfile
     container_name: frontend_app
     restart: unless-stopped
-    ports:
-      # Mapea el puerto de desarrollo de Vite/React al host
+    ports: # Expone el servidor de desarrollo de Vite (5173) al host.
       - "5173:5173"
+    environment: # Variables de entorno específicas para el frontend.
+      - VITE_API_URL=http://localhost:8000 # URL que usa el Frontend para alcanzar el Backend.
     volumes:
-      # Monta el código fuente del Frontend
-      - ./Frontend:/usr/src/app/Frontend
-      # Añadir un volumen para 'node_modules' para evitar errores de permisos
-      - /usr/src/app/Frontend/node_modules
-    # Sobrescribe el comando para instalar dependencias e iniciar el frontend
-    command: >
-      sh -c "npm install --prefix Frontend && 
-             cd Frontend && 
-             npm run dev -- --host 0.0.0.0 --port 5173"
+      - ./Frontend:/app   # Monta el código fuente del frontend para desarrollo en caliente.
+      - /app/node_modules # Volumen anónimo para node_modules: evita conflictos de permisos y sobrescritura.
+    # Comando para desarrollo frontend.
+    command: npm run dev -- --host 0.0.0.0
+    networks:
+      - en-privado
 
-# --- 4. Volúmenes para Persistencia ---
+# --- REDES: Define la red Docker para comunicación entre contenedores ---
+networks:
+  en-privado:      # Red personalizada para aislar los contenedores de esta aplicación.
+    driver: bridge # Driver de red bridge (por defecto) - permite comunicación entre contenedores.
+
+# --- VOLÚMENES: Define volúmenes con nombre para persistencia de datos ---
 volumes:
-  # Este volumen almacena permanentemente los datos de la DB
-  postgres_data:
+  postgres_data: # Volumen para persistir datos de PostgreSQL (sobrevive a reinicios/eliminación de contenedores).
+  backend_cache: # Volumen para cache del backend (acelera reinstalación de dependencias Python).

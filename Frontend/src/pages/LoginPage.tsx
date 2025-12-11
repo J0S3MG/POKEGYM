@@ -18,7 +18,6 @@ const LoginPage: React.FC = () => {
     setLoading(true);
 
     try {
-      // CORREGIDO: Pasar parámetros separados, no un objeto
       await login(username, password);
       navigate('/rutinas');
     } catch (err: any) {

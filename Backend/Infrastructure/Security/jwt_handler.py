@@ -43,9 +43,9 @@ class JWTHandler:
     """
    
     def __init__(self, settings: Settings): # <-- RECIBE SETTINGS
-        self.secret_key = settings.SECRET_KEY
-        self.algorithm = settings.ALGORITHM
-        self.expire_minutes = settings.ACCESS_TOKEN_EXPIRE_MINUTES
+        self.secret_key = settings.JWT_SECRET_KEY
+        self.algorithm = settings.JWT_ALGORITHM
+        self.expire_minutes = settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES
 
 
     # ---------------------------------- CREAR UN JWT FRIMADO -----------------------------------
@@ -76,11 +76,7 @@ class JWTHandler:
         """
         try:
             # Decodificar (Verifica la firma, la expiración y el algoritmo).
-            payload = jwt.decode(
-                token, 
-                self.secret_key, 
-                algorithms=[self.algorithm]
-            )
+            payload = jwt.decode( token, self.secret_key, algorithms=[self.algorithm])
             # Extraer el ID del usuario.
             user_id = payload.get("sub")
             

@@ -3,11 +3,11 @@ import { RutinaListParams, RutinaConEjerciciosCreate, RutinaModificarRequest, Ej
 
 
 // URL base del backend Python (puerto 8000)
-const API_BASE_URL = 'http://localhost:8000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 // Configurar axios base
 export const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },

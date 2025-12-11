@@ -17,7 +17,7 @@ POSTGRES_PORT = os.environ.get("POSTGRES_PORT", "5432")
 POSTGRES_DB = os.environ.get("POSTGRES_DB", "BaseRutina")
 
 # Construcción de la URL de conexión.
-DATABASE_URL = f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
+DATABASE_URL = os.environ.get("DATABASE_URL") or f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
 
 # El motor debe ser global y creado solo una vez.
 engine = create_engine(DATABASE_URL, echo=True,  
