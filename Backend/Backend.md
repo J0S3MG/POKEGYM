@@ -1,49 +1,3 @@
-# POKEGYM: Sistema de Gestión de Rutinas de Gimnasio
-
-Esta aplicación es un sistema completo (Full-Stack) diseñado para la gestión y planificación de rutinas de entrenamiento físico. Permite a los usuarios autenticarse, crear planes detallados por día de la semana y administrar ejercicios con métricas específicas (series, repeticiones, peso).
-
-El proyecto está dividido en dos servicios principales:
-
-1. Backend (FastAPI): Gestiona la lógica de negocio, la API RESTful, la autenticación JWT y la persistencia de datos en PostgreSQL.
-2. Frontend (React/MUI): Proporciona una interfaz de usuario moderna y responsive para interactuar con la API.
-
-## Principales Caracteristicas
- - Registrar Usuarios (Seguridad con JWT).
- - Crear, Editar y Eliminar Ejercicios.
- - Crear, Editar, Listar, Buscar y Eliminar Rutinas.
- - Sistema basico de Notificaciones.
-
-## Ejecutar la Aplicación
-
-**Requisitos Previos** Para ejecutar la aplicación completa en un entorno reproducible y aislado, solo necesitas:
-- Docker: Versión 20.x o superior.
-- Docker Compose: Versión 1.29.x o Docker Engine con soporte Compose V2 (generalmente viene incluido con Docker Desktop).
-
-1. **Clonar o descargar el proyecto**
-   ```bash
-   git clone https://github.com/J0S3MG/POKEGYM.git
-   ```
-   
-2. **Ejecutar docker compose**
-   
-Dentro de la misma carpeta que clono haga:
-   ```bash
-   docker compose up --build -d 
-   ```
-Luego espere hasta que docker instale todo.
-
-3. **La aplicación estará disponible en:**
-   - **Frontend**: http://localhost:5173
-   - **Backend**: http://localhost:8000
-Puede acceder al swagger de FasApi a traves de: http://localhost:8000/docs
-
-4. **Para detener la app:**
-En la terminal haga:
- ```bash
-   docker compose stop 
-   ```
-Y lo frena todo.
-
 # Backend con FASTAPI (PostgresSQL para la persistencia)
 
 Para la arquitectura del proyecto se opto por un patrón de diseño muy popular en el desarrollo de software, conocido como Arquitectura Limpia (Clean Architecture) / Diseño Orientado al Dominio (Domain-Driven Design - DDD), donde separamos nuestra API en 3 capas claras:
@@ -135,6 +89,9 @@ Backend/
 | **python-multipart**          | Requerido por FastAPI para manejar la subida de archivos (datos multipart/form-data), como imágenes o documentos.                                      |
 | **argon2-cffi**               | Proporciona una implementación robusta del algoritmo de hashing Argon2, otra alternativa criptográfica para el almacenamiento seguro de contraseñas.   |
 
+## Configuracion del .env
+
+ACLARACION: Si no se crea o configura el .env y lo corre con Docker Compose este ultimo utilizara las variables de entorno definidas en el archivo docker-compose.yml
 
 ## Endpoints de Rutina 
 
@@ -156,65 +113,6 @@ Backend/
 - `POST /api/auth/token` - Crea un token JWT cuando el usuario se loguea.
 - `POST /api/auth/register` - Permite registrar un nuevo usuario.
 - `GET /api/auth/me` - Devuelve un usuario que ya haya iniciado sesion.
-
-# Frontend con  React + Vite (TypeScripts para el tipado consistente con el back)
-
-La interfaz de usuario (Frontend) para la aplicación esta construida con React y Material UI (MUI).
-Pensado en el diseño responsive y adaptandoce a mobiles.
-
-## Tecnologias Utilizadas
-
-| Tecnología                    | Descripción                                                                                                                                                            |
-| :---------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **TypeScript**                | Utilizado para añadir tipado estático al código JavaScript, lo que mejora la detección de errores en tiempo de desarrollo y la mantenibilidad del proyecto.            |
-| **react-router-dom**          | Gestiona la navegación declarativa y la carga de diferentes vistas (páginas) dentro de la aplicación de una sola página (SPA).                                         |
-| **Vite**                      | Herramienta de construcción y servidor de desarrollo de alto rendimiento, optimizado para el ecosistema moderno de JavaScript y React.                                 |
-| **@mui/material**             | Implementación de Material Design que proporciona un conjunto de componentes de interfaz de usuario listos para usar, garantizando un diseño profesional y coherente.  |
-| **axios**                     | Biblioteca basada en Promesas utilizada para realizar todas las peticiones HTTP (API calls) al backend (FastAPI).                                                      |
-
-
-### Estructura del Proyecto
-
-```
-Frontend/
-    ├── public/images                    # Almacena las images de la pagina.
-    └── src/                             
-        ├── api/                         # Contiene la logica para la comunicación con la API. 
-        │    └── Api.ts                  # Archivo que hace el llamado a la API.
-        │
-        ├── components/
-        │    ├── auth/                   # Contiene el componente ProtectedRoute.
-        │    ├── common/                 # Contiene los componentes comunes a toda la App.
-        │    ├── ejercicios/             # Contiene los compoentes de ejercicio.
-        │    ├── layout/                 # Contiene el componente MainLayout.
-        │    ├── perfil/                 # Contiene los componentes del perfil.
-        │    ├── rutinas/                # Contiene los componentes de la rutina.
-        │    └── testimonios/            # Contiene los componentes del testimonio.
-        │
-        ├── context/
-        │    ├── AuthContext.tsx           # Provee el contexto para la autenticacion.
-        │    ├── NotificationContext.tsx   # Provee el contexto para las notificaciones.
-        │    ├── TestimonioContext.tsx     # Provee el contexto para los testimonios.
-        │    └── useAuthNotifications.ts   # Hook personalizado para las notificaciones.
-        │
-        ├── pages/                   # Componentes que representan las vistas de la App.
-        │    ├── HomePage.tsx           # Página de inicio.
-        │    ├── LoginPage.tsx          # Página para logearse.
-        │    ├── PerfilPage.tsx         # Página de perfil.
-        │    ├── RegisterPage.tsx       # Página para registrarse.
-        │    ├── RutinaDetallePage.tsx  # Página con el detalle de una rutina.     
-        │    └── RutinaListPage.tsx     # Página con la lista de rutina.
-        │
-        ├── theme/                  
-        │    └── index.tsx              # Tema de la App.
-        ├── types/                      # Modelos que reprecentan los DTOs de la API.
-        │    ├── Auth_Models.ts         # Modelo para las Request/Response de los endpoints de autenticacion.
-        │    ├── Rutina_Models.ts       # Modelos para las Request/Response de los endpoints de rutinas.     
-        │    └── Value_objects.ts       # Modelo para representar los dias de la semana.
-        └── App.tsx                     # Define las rutas principales y la estructura del MainLayout.
-```
-
-
 
 
 
