@@ -54,24 +54,24 @@ Aca hay algunas imagenes del sistema para ver mas dirijase a [Frontend](https://
 ### Pagina de Incio:
 
 Titulo de la pagina:
-[ImgTitulo](https://github.com/user-attachments/assets/7550757e-647d-4d10-b021-ff81edd131ff)
+![ImgTitulo](https://github.com/user-attachments/assets/7550757e-647d-4d10-b021-ff81edd131ff)
 
 Carusel con comentarios de usuarios (ficticios):
-[ImgCarusel](https://github.com/user-attachments/assets/745caea9-e85f-4fe4-b483-1dbbe39834c8)
+![ImgCarusel](https://github.com/user-attachments/assets/745caea9-e85f-4fe4-b483-1dbbe39834c8)
 
 Características:
-[ImgCaracterística](https://github.com/user-attachments/assets/7f0f9fbf-bc44-4d4f-a6f6-b53199a8ad5a)
+![ImgCaracterística](https://github.com/user-attachments/assets/7f0f9fbf-bc44-4d4f-a6f6-b53199a8ad5a)
 
 ¿Lsito para comenzar?:
-[ImgListo](https://github.com/user-attachments/assets/e9db23e2-d077-4fea-a4f0-9be391c0ff02)
+![ImgListo](https://github.com/user-attachments/assets/e9db23e2-d077-4fea-a4f0-9be391c0ff02)
 
 ### Incio de Sesíon y Registro de Usuario (seguridad con JWT):
 
 Pagina para Iniciar Sesíon:
-[ImgInciarSesion](https://github.com/user-attachments/assets/128c0294-9bd0-4f0e-884c-fed9e3351b0f)
+![ImgInciarSesion](https://github.com/user-attachments/assets/128c0294-9bd0-4f0e-884c-fed9e3351b0f)
 
 Pagina para Registrar Usuario:
-[ImgRegistro](https://github.com/user-attachments/assets/0ec74a3d-dff2-4c9b-97c7-dfd1e4994199)
+![ImgRegistro](https://github.com/user-attachments/assets/0ec74a3d-dff2-4c9b-97c7-dfd1e4994199)
 
 ## Para leer mas sobre el proyecto consultar la siguiente documentación 
 
