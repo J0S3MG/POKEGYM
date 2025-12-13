@@ -50,7 +50,7 @@ Detener y eliminar volúmenes (⚠️ borra la base de datos):
 
 ## Para leer mas sobre el proyecto 
 
-- Backend: https://POKEGYM/Backend/Backend.md
+- Backend: [https://POKEGYM/Backend/Backend.md](https://github.com/J0S3MG/POKEGYM/blob/main/Backend/Backend.md)
 -
 
 
