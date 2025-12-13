@@ -54,7 +54,7 @@ Aca hay algunas imagenes del sistema, para ver mas dirijase a [Frontend](https:/
 ### Pagina de Incio:
 
 Titulo de la pagina:
-![ImgTitulo](https://github.com/user-attachments/assets/7550757e-647d-4d10-b021-ff81edd131ff)
+![ImgTitulo](https://github.com/user-attachments/assets/c9316468-d338-4308-a467-26048cd97450)
 
 Carrusel con comentarios de usuarios (ficticios):
 ![ImgCarusel](https://github.com/user-attachments/assets/745caea9-e85f-4fe4-b483-1dbbe39834c8)
