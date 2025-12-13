@@ -27,28 +27,28 @@ El proyecto está dividido en dos servicios principales:
    
 2. **Ejecutar docker compose**
    
-Dentro de la misma carpeta que clono haga:
+   Dentro de la misma carpeta que clono haga:
    ```bash
    docker compose up --build -d 
    ```
-Luego espere hasta que docker instale todo.
+   Luego espere hasta que docker instale todo.
 
 3. **La aplicación estará disponible en:**
    - **Frontend**: http://localhost:5173
    - **Backend**: http://localhost:8000
-Puede acceder al swagger de FasApi a traves de: http://localhost:8000/docs
+   Puede acceder al swagger de FasApi a traves de: http://localhost:8000/docs
 
 4. **Para detener la app:**
-Detener los contenedores:
- ```bash
-   docker compose down
+   Detener los contenedores:
+   ```bash
+     docker compose down
    ```
-Detener y eliminar volúmenes (⚠️ borra la base de datos):
- ```bash
+   Detener y eliminar volúmenes (⚠️ borra la base de datos):
+   ```bash
    docker compose down -v
    ```
 
-# Imagenes ilustrativas del sistema
+# Imagenes ilustrativas del Sistema
 Aca hay algunas imagenes del sistema, para ver mas dirijase a [Frontend](https://github.com/J0S3MG/POKEGYM/tree/main/Frontend#readme).
 
 ### Pagina de Incio:
