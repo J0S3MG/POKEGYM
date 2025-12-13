@@ -45,39 +45,51 @@ const PerfilPage: React.FC = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom sx={{ color: '#FFDE00', mb: 4 }}>
-        Mi Perfil
-      </Typography>
+  <Typography variant="h4" gutterBottom sx={{ color: '#FFDE00', mb: 4 }}>
+    Mi Perfil
+  </Typography>
 
-      <Grid container spacing={3}>
-        {/* Información del usuario */}
-        <Grid item xs={12} md={4} {...{} as any}>
-          <PerfilInfo 
-            usuario={usuario}
-            currentAvatar={userAvatar || undefined}
-            onEditProfile={handleEditProfile}
-          />
-        </Grid>
-
-        {/* Estadísticas */}
-        <Grid item xs={12} md={8} {...{} as any}>
-          <EstadisticasPerfil usuario={usuario} />
-        </Grid>
-      </Grid>
-
-      {/* Historial de Actividad/Notificaciones */}
-      <Box sx={{ mt: 3 }}>
-        <NotificationHistory />
-      </Box>
-
-      {/* Diálogo para seleccionar avatar */}
-      <AvatarSelector
-        open={avatarDialogOpen}
-        onClose={() => setAvatarDialogOpen(false)}
+  {/* Contenedor principal usando flexbox */}
+  <Box sx={{ 
+    display: 'flex', 
+    flexDirection: { xs: 'column', md: 'row' },
+    gap: 2,
+    alignItems: 'stretch'
+  }}>
+    {/* Información del usuario - Ocupa 1/3 en desktop */}
+    <Box sx={{ 
+      width: { xs: '100%', md: '33.33%' },
+      flexShrink: 0
+    }}>
+      <PerfilInfo 
+        usuario={usuario}
         currentAvatar={userAvatar || undefined}
-        onSelectAvatar={handleSelectAvatar}
+        onEditProfile={handleEditProfile}
       />
     </Box>
+
+    {/* Estadísticas - Ocupa 2/3 en desktop */}
+    <Box sx={{ 
+      width: { xs: '100%', md: '66.67%' },
+      flexGrow: 1
+    }}>
+      <EstadisticasPerfil usuario={usuario} />
+    </Box>
+  </Box>
+
+  {/* Historial de Actividad/Notificaciones - Debajo en todas las pantallas */}
+  <Box sx={{ mt: 3 }}>
+    <NotificationHistory />
+  </Box>
+
+  {/* Diálogo para seleccionar avatar */}
+  <AvatarSelector
+    open={avatarDialogOpen}
+    onClose={() => setAvatarDialogOpen(false)}
+    currentAvatar={userAvatar || undefined}
+    onSelectAvatar={handleSelectAvatar}
+  />
+</Box>
   );
 };
 

@@ -167,7 +167,7 @@ const NotificationHistory: React.FC = () => {
         onClose={() => handleFilterClose()}
       >
         <MenuItem onClick={() => handleFilterClose('all')}>
-          <Chip size="small" label="Todas" sx={{ mr: 1 }} />
+          <Chip size="small" label="Todas"  sx={{ mr: 1 }} />
           <Typography>Todas ({notifications.length})</Typography>
         </MenuItem>
         <MenuItem onClick={() => handleFilterClose('unread')}>
