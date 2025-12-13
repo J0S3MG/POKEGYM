@@ -4,7 +4,7 @@ Esta aplicación es un sistema completo (Full-Stack) diseñado para la gestión 
 
 El proyecto está dividido en dos servicios principales:
 
-1. [Backend (FastAPI)](https://github.com/J0S3MG/POKEGYM/tree/main/Backend#readme): Gestiona la lógica de negocio, la API RESTful, la autenticación JWT y la persistencia de datos en PostgreSQL.
+1. [Backend (FastAPI)](https://github.com/J0S3MG/POKEGYM/tree/main/Backend#readme): Gestiona la lógica de negocio, la API RESTFul, la autenticación JWT y la persistencia de datos en PostgreSQL.
 2. [Frontend (React/MUI)](https://github.com/J0S3MG/POKEGYM/tree/main/Frontend#readme): Proporciona una interfaz de usuario moderna y responsive para interactuar con la API.
 
 ## Principales Caracteristicas
@@ -78,7 +78,8 @@ Pagina para Registrar Usuario:
 Dev Principal: José Manuel González
 
 #### Contacto:
-EMAIL: josemanuelgonzalez.dev@gmail.com
+
+Email: josemanuelgonzalez.dev@gmail.com
 
 LinkedIn: [José Manuel González](https://www.linkedin.com/in/jose-manuel-gonzalez-98b986214/)
 
