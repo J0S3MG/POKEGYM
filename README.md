@@ -36,7 +36,7 @@ El proyecto está dividido en dos servicios principales:
 3. **La aplicación estará disponible en:**
    - **Frontend**: http://localhost:5173
    - **Backend**: http://localhost:8000
-   Puede acceder al swagger de FasApi a traves de: http://localhost:8000/docs
+   - Puede acceder al swagger de FastApi a traves de: http://localhost:8000/docs
 
 4. **Para detener la app:**
    Detener los contenedores:
