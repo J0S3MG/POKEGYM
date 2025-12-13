@@ -48,6 +48,13 @@ Detener y eliminar volúmenes (⚠️ borra la base de datos):
    docker compose down -v
    ```
 
+# Imagenes ilustrativas del sistema
+Aca hay algunas imagenes del sistema para ver mas dirijase a [Frontend](https://github.com/J0S3MG/POKEGYM/blob/main/Frontend/Frontend.md).
+
+Pagina de Incio:
+
+
+
 ## Para leer mas sobre el proyecto consultar la siguiente documentación 
 
 - [Backend](https://github.com/J0S3MG/POKEGYM/blob/main/Backend/Backend.md)
