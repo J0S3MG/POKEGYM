@@ -49,14 +49,14 @@ Detener y eliminar volúmenes (⚠️ borra la base de datos):
    ```
 
 # Imagenes ilustrativas del sistema
-Aca hay algunas imagenes del sistema para ver mas dirijase a [Frontend](https://github.com/J0S3MG/POKEGYM/blob/main/Frontend/Frontend.md).
+Aca hay algunas imagenes del sistema, para ver mas dirijase a [Frontend](https://github.com/J0S3MG/POKEGYM/blob/main/Frontend/Frontend.md).
 
 ### Pagina de Incio:
 
 Titulo de la pagina:
 ![ImgTitulo](https://github.com/user-attachments/assets/7550757e-647d-4d10-b021-ff81edd131ff)
 
-Carusel con comentarios de usuarios (ficticios):
+Carrusel con comentarios de usuarios (ficticios):
 ![ImgCarusel](https://github.com/user-attachments/assets/745caea9-e85f-4fe4-b483-1dbbe39834c8)
 
 Características:
