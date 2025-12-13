@@ -75,7 +75,7 @@ Pagina para Registrar Usuario:
 
 ## Para leer mas sobre el proyecto consultar la siguiente documentación 
 
-- [Backend](https://github.com/J0S3MG/POKEGYM/blob/main/Backend/Backend.md)
+- [Backend](https://github.com/J0S3MG/POKEGYM/tree/main/Backend#readme)
 - [Frontend](https://github.com/J0S3MG/POKEGYM/blob/main/Frontend/Frontend.md)
 
 
