@@ -73,7 +73,8 @@ Formulario para crear una Rutina:
 Formulario para editar una Rutina:
 ![ImgEditar](https://github.com/user-attachments/assets/677f5947-7252-4577-b292-cce39507ef4e)
 
-Mensaje ELiminar Rutina:
+Mensaje Eliminar Rutina:
+
 ![ImgEliminar](https://github.com/user-attachments/assets/e6557c1f-084a-4be5-bbd9-0f307689da9c)
 
 #### Busqueda por Id y Nombre (Con busqueda parcial de terminos):
@@ -90,12 +91,15 @@ Busqueda Parcial:
 ![ImgEliminar](https://github.com/user-attachments/assets/a9bfc3d5-3907-4a4b-b3dc-d1fad66da3a0)
 
 Formulario Agregar Ejercicio:
+
 ![ImgAgregar](https://github.com/user-attachments/assets/d48257bf-b938-44a7-a7c2-f55a8c46d243)
 
 Formulario Editar Ejercicio:
+
 ![ImgEditar](https://github.com/user-attachments/assets/b2e4415d-80e2-41d5-a518-d17c49f1459c)
 
 Mensaje Eliminar Ejercicio:
+
 ![ImgEliminar](https://github.com/user-attachments/assets/d92a0f9d-92dd-4c64-833b-78a41e043d84)
 
 ## Página Perfil de Usuario
@@ -103,6 +107,7 @@ Mensaje Eliminar Ejercicio:
 ![ImgPerfil](https://github.com/user-attachments/assets/bc7aa4d0-1287-4c0d-9b38-b4dbf5160187)
 
 Perfil de Usuario:
+
 ![ImgPerfil](https://github.com/user-attachments/assets/2366aaa9-35c7-4ddd-b3d3-83f4e14a5bd4)
 
 Selector de Avatar:
