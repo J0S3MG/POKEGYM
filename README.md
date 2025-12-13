@@ -79,7 +79,8 @@ Dev Principal: José Manuel González
 
 #### Contacto:
 EMAIL: josemanuelgonzalez.dev@gmail.com
-LinkedIn: [José Manuel González](www.linkedin.com/in/jose-manuel-gonzalez-98b986214)
+
+LinkedIn: [José Manuel González](https://www.linkedin.com/in/jose-manuel-gonzalez-98b986214/)
 
 
 
