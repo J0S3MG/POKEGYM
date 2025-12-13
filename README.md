@@ -22,6 +22,7 @@ El proyecto está dividido en dos servicios principales:
 1. **Clonar o descargar el proyecto**
    ```bash
    git clone https://github.com/J0S3MG/POKEGYM.git
+   cd POKEGYM
    ```
    
 2. **Ejecutar docker compose**
@@ -38,13 +39,19 @@ Luego espere hasta que docker instale todo.
 Puede acceder al swagger de FasApi a traves de: http://localhost:8000/docs
 
 4. **Para detener la app:**
-En la terminal haga:
+Detener los contenedores:
  ```bash
-   docker compose stop 
+   docker compose down
    ```
-Y lo frena todo.
+Detener y eliminar volúmenes (⚠️ borra la base de datos):
+ ```bash
+   docker compose down -v
+   ```
 
+## Para leer mas sobre el proyecto 
 
+- Backend: Backend/Backend.md
+-
 
 
 
